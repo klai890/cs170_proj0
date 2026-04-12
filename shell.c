@@ -175,7 +175,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
       }
 
       debugprint("fd is %d\n", fd);
-      if (dup2(fd, 0) == -1) {
+      if (dup2(fd, inPipe) == -1) {
         printf("ERROR: Could not allocate file descriptor.\n");
         exit(1);
       }
@@ -198,7 +198,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
       }
 
       debugprint("fd is %d\n", fd);
-      if (dup2(fd, 1) == -1) {
+      if (dup2(fd, outPipe) == -1) {
         printf("ERROR: Could not allocate file descriptor.\n");
         exit(1);
       }
