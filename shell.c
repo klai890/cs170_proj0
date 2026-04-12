@@ -185,7 +185,23 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
     if (*nextChar == '>')
     {   /*It is output redirection, setup the file name to write*/
         /*Your solution*/
-          
+        char * out[length];
+        nextChar = parse(nextChar+1, out);
+
+      debugprint("out[0] is %s\n", out[0]);
+      int fd = open(out[0], O_WRONLY); // should we add O_CREAT?
+
+      // Check the file was opened successfully
+      if (fd == -1){
+        printf("ERROR: Could not open file %s.\n", out[0]);
+        exit(1);
+      }
+
+      debugprint("fd is %d\n", fd);
+      if (dup2(fd, 1) == -1) {
+        printf("ERROR: Could not allocate file descriptor.\n");
+        exit(1);
+      }
     }
 
     if (*nextChar == '|')
