@@ -162,7 +162,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
       nextChar = parse(nextChar+1,in); 
 
       /* Change inPipe so it follows the redirection */ 
-      /*Your solutuon*/
+      /*Your solution*/
 
       // What is the file descriptor of file it should input from?
       debugprint("in[0] is %s\n", in[0]);
@@ -184,7 +184,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
 
     if (*nextChar == '>')
     {   /*It is output redirection, setup the file name to write*/
-        /*Your solutuon*/
+        /*Your solution*/
           
     }
 
