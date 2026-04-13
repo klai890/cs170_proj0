@@ -81,6 +81,7 @@ char* parse(char * lineptr, char **args)
 void fchild(char **args,int inPipe, int outPipe)
 {
   pid_t pid;
+  debugprint("inPipe=%d, outPipe=%d\n", inPipe, outPipe);
   
   pid = fork();
   if (pid == 0)/*Child  process*/
@@ -90,6 +91,9 @@ void fchild(char **args,int inPipe, int outPipe)
     /*Call dup2 to setup redirection, and then call excevep*/
 
     /*Your solution*/
+    dup2(inPipe, 0);
+    dup2(outPipe, 1);
+    execReturn = execvp(args[0], args);
 
     if (execReturn < 0) 
     { 
@@ -208,8 +212,23 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
     { /*It is a pipe, setup the input and output descriptors */
       /*execute the subcommand that has been parsed, but setup the output using this pipe*/
       /*Your solution*/
+      int pipefd[2];
+
+      if (pipe(pipefd) == -1){
+        printf("ERROR: pipe failed\n");
+        exit(1);
+      }
+
+      fchild(args, 0, pipefd[1]);
+
       /*execute the remaining subcommands, but setup the input using this pipe*/
       /*Your solution*/
+      debugprint("pipefd[0] = %d\n", pipefd[0]);
+      debugprint("pipefd[1] = %d\n", pipefd[1]);
+
+      char* nextArgs[length];
+      nextChar = parse(nextChar+1, nextArgs);
+      fchild(nextArgs, pipefd[0], 1);
 
       return;
     }
@@ -253,6 +272,7 @@ int main(int argc, char *argv[])
   
     /*Wait for the child completes */
     /*Your solution*/
+    wait(NULL);
 
   }
 
