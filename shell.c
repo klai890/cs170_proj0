@@ -81,7 +81,7 @@ char* parse(char * lineptr, char **args)
 void fchild(char **args,int inPipe, int outPipe)
 {
   pid_t pid;
-  debugprint("inPipe=%d, outPipe=%d\n", inPipe, outPipe);
+  debugprint("fchild() was called: inPipe=%d, outPipe=%d\n", inPipe, outPipe);
   
   pid = fork();
   if (pid == 0)/*Child  process*/
@@ -91,8 +91,14 @@ void fchild(char **args,int inPipe, int outPipe)
     /*Call dup2 to setup redirection, and then call excevep*/
 
     /*Your solution*/
-    dup2(inPipe, 0);
-    dup2(outPipe, 1);
+    if (inPipe != 0) {
+      dup2(inPipe, 0);
+      close(inPipe);
+    }
+    if (outPipe != 1){
+      dup2(outPipe, 1);
+      close(outPipe);
+    }
     execReturn = execvp(args[0], args);
 
     if (execReturn < 0) 
@@ -179,12 +185,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
       }
 
       debugprint("fd is %d\n", fd);
-      if (dup2(fd, inPipe) == -1) {
-        printf("ERROR: Could not allocate file descriptor.\n");
-        exit(1);
-      }
-
-      close(fd);
+      inPipe = fd;
     }
 
     if (*nextChar == '>')
@@ -203,12 +204,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
       }
 
       debugprint("fd is %d\n", fd);
-      if (dup2(fd, outPipe) == -1) {
-        printf("ERROR: Could not allocate file descriptor.\n");
-        exit(1);
-      }
-
-      close(fd);
+      outPipe = fd;
     }
 
     if (*nextChar == '|')
@@ -221,18 +217,15 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
         printf("ERROR: pipe failed\n");
         exit(1);
       }
-
-      fchild(args, 0, pipefd[1]);
-      close(pipefd[1]);
-
+      fchild(args, inPipe, pipefd[1]);
+      
       /*execute the remaining subcommands, but setup the input using this pipe*/
       /*Your solution*/
       debugprint("pipefd[0] = %d\n", pipefd[0]);
       debugprint("pipefd[1] = %d\n", pipefd[1]);
-
+      
       char* nextArgs[length];
-      nextChar = parse(nextChar+1, nextArgs);
-      fchild(nextArgs, pipefd[0], 1);
+      runcmd(nextChar+1, length, pipefd[0], outPipe);
 
       return;
     }
@@ -276,7 +269,7 @@ int main(int argc, char *argv[])
   
     /*Wait for the child completes */
     /*Your solution*/
-    wait(NULL);
+    waitpid(-1, NULL, 0);
 
   }
 
