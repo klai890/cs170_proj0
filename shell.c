@@ -184,6 +184,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
         exit(1);
       }
 
+      close(fd);
     }
 
     if (*nextChar == '>')
@@ -206,6 +207,8 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
         printf("ERROR: Could not allocate file descriptor.\n");
         exit(1);
       }
+
+      close(fd);
     }
 
     if (*nextChar == '|')
