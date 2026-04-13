@@ -268,6 +268,7 @@ int main(int argc, char *argv[])
     runcmd(lineIn, len,0,1);
   
     /*Wait for the child completes */
+    // -1 means wait for any child process, NULL means we don't care about the exit status, 0 means wait until the child process finishes.
     /*Your solution*/
     waitpid(-1, NULL, 0);
 

@@ -1,0 +1,19 @@
+-rw-r--r--   1 Brian  staff     49 Apr 13 15:05 testfile1
+-rw-r--r--   1 Brian  staff     61 Apr 13 15:05 testfile
+-rw-r--r--   1 Brian  staff    111 Apr 13 15:05 testfile3
+-rw-r--r--   1 Brian  staff    127 Apr 13 15:05 testfile2
+-rw-r--r--   1 Brian  staff    154 Apr 13 15:05 testfile4
+-rw-r--r--   1 Brian  staff    587 Apr 13 15:05 Makefile
+-rw-r--r--   1 Brian  staff   1433 Apr 13 15:05 simple_shell.c
+-rw-r--r--   1 Brian  staff   7454 Apr 13 15:05 shell.c
+-rw-r--r--@  1 Brian  staff      0 Apr 13 15:13 temp
+-rw-r--r--@  1 Brian  staff   1664 Apr 13 15:13 simple_shell.o
+-rw-r--r--@  1 Brian  staff   3840 Apr 13 15:13 shell.o
+-rwxr-xr-x@  1 Brian  staff  33939 Apr 13 15:13 simple
+-rwxr-xr-x@  1 Brian  staff  34370 Apr 13 15:13 shell
+drwxr-xr-x   3 Brian  staff     96 Apr 13 15:05 ..
+drwxr-xr-x  12 Brian  staff    384 Apr 13 15:05 .git
+drwxr-xr-x  17 Brian  staff    544 Apr 13 15:05 gradescope_test
+drwxr-xr-x  17 Brian  staff    544 Apr 13 15:13 .
+total 232
+      18     155     974
