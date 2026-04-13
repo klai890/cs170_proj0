@@ -194,7 +194,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
         nextChar = parse(nextChar+1, out);
 
       debugprint("out[0] is %s\n", out[0]);
-      int fd = open(out[0], O_WRONLY); // should we add O_CREAT?
+      int fd = open(out[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
       // Check the file was opened successfully
       if (fd == -1){
