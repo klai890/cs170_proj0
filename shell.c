@@ -220,6 +220,7 @@ void runcmd(char * linePtr, int length, int inPipe, int outPipe)
       }
 
       fchild(args, 0, pipefd[1]);
+      close(pipefd[1]);
 
       /*execute the remaining subcommands, but setup the input using this pipe*/
       /*Your solution*/
